@@ -1,5 +1,6 @@
 import numpy as np
 import math
+
 import torch
 import torch.utils.data
 import torch.nn as nn
@@ -277,6 +278,10 @@ class Net(nn.Module):
         self.total_layer = total_layer
         self.layers = nn.ModuleList()
 
+        # added by Tianci Liu.
+        self.register_buffer('base_dist_mean', torch.zeros(dimension))
+        self.register_buffer('base_dist_var', torch.ones(dimension))
+
         for layer_num in range(total_layer):
             for i in range(kde_num-1):
                 self.layers.append(rbig_block(layer_num, dimension, datapoint_num, householder_iter=householder_iter, multidim_kernel=multidim_kernel,
@@ -306,4 +311,9 @@ class Net(nn.Module):
                     x[i * process_size: (i + 1) * process_size, :] = layer.sampling(
                         x[i * process_size: (i + 1) * process_size, :])
         return x
+
+    @property
+    def base_dist(self):
+        return tdist.Normal(self.base_dist_mean, self.base_dist_var)
+
 
