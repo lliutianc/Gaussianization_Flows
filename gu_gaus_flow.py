@@ -5,7 +5,6 @@ from Gaussianization_Flows.models.flow_model import Net
 import seaborn.apionly as sns
 import matplotlib.pyplot as plt
 import matplotlib
-import datasets
 import torchvision.transforms as transforms
 from torchvision.utils import save_image, make_grid
 import torchvision
@@ -30,7 +29,6 @@ from tqdm import tqdm
 curPath = os.path.abspath(os.path.dirname(__file__))
 rootPath = os.path.split(curPath)[0]
 sys.path.append(curPath)
-
 
 matplotlib.use('Agg')
 plt.style.use('seaborn-paper')
